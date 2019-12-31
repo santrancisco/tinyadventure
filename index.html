@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" style="min-height: 100%; background-image: url('images/bg.svg'); background-repeat: no-repeat; background-size: cover ">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Blank Template for Bootstrap</title>
+        <!-- Bootstrap core CSS -->
+        <!-- Custom styles for this template -->
+        <link href="style.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 class="mainheading">Tiny Adventure</h1>
+        <div class="container">
+            <div class="status" style="margin-top: 5vh; padding-bottom: 5vh;">
+                <p id="note" class="note">
+                    Let the adventure begins  </p>
+            </div>
+            <div class="action bar">
+                <div class="button_cont" align="center">
+                    <button class="nextbtt btt" id="previousbutton" onclick="previousscenario();">Previous</button>
+                    <button class="playbtt btt" id="playbutton" onclick="playscenario(scenarios[currentscenario]);">Play Scenario</button>
+                    <button class="nextbtt btt" id="nextbutton" onclick="nextscenario();">Next</button>
+                </div>
+                <br>
+                <div class="button_cont" align="center">
+                    <button class="stopbtt btt" id="stopbutton" onclick="window.location.reload();">Stop</button>
+                </div>
+            </div>
+        </div>
+        <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+        <script src="/js/main.js"></script>
+    </body>
+</html>

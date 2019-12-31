@@ -1,0 +1,57 @@
+.mainheading {
+    text-align: center;
+    color: #775B59;
+}
+
+.status {
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.55);
+}
+
+.statustable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.playbtt {
+    background: #B3B7EE;
+}
+
+.stopbtt {
+    background: #ed3330;
+}
+
+.previousbtt {
+    background: #5B5941;
+}
+
+.nextbtt {
+    background: #5B5941;
+}
+
+.btt {
+    color: #fff !important;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 3px;
+    display: inline-block;
+    border: none;
+    transition: all 0.4s ease 0s;
+}
+
+.btt:hover {
+    background: #434343;
+    letter-spacing: 1px;
+    -webkit-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    -moz-box-shadow: 0px 5px 40px -10px rgba(0,0,0,0.57);
+    box-shadow: 5px 40px -10px rgba(0,0,0,0.57);
+    transition: all 0.4s ease 0s;
+}
+
+.note {
+    text-align: left;
+    max-width: 800;
+    padding-left: 10px;
+    padding-right: 10px;
+}
