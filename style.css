@@ -5,6 +5,9 @@
 
 .status {
     text-align: left;
+    max-width: 800px;
+    margin:0 auto;
+    align: center;
     background-color: rgba(255, 255, 255, 0.55);
 }
 
@@ -27,6 +30,13 @@
 
 .nextbtt {
     background: #5B5941;
+}
+.stagebtt{
+    background: #175869;
+}
+
+.stagebttactive{
+    background: #C3EA80;
 }
 
 .btt {

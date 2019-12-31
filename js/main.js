@@ -39,7 +39,7 @@ var scenarios = [
         "description":"It is 2045, a war broke out and your family is wondering through the apocalyptic land.",
         "stages":[
             {
-                "time": 30000,
+                "time": 10000,
                 "read":{
                     "en":"You are wondering through an abandoned town but there is no sign of living. A storm is approaching in and you must find food and shelter."
                 },
@@ -56,6 +56,16 @@ var scenarios = [
                 "sound":{
                     "thunder_storm":0,
                     "fire":0,
+                    // "coffee_shop":0,
+                }
+             },
+             {
+            	"time": 30000,
+                "read": {
+                    "en":"Your friends are exhausted and they need food. The sky is clearing and It's time to go out and search for food."
+                },
+                "sound":{
+                    "warm_night":0,
                 }
          	}
         ],
@@ -115,7 +125,7 @@ async function  playsound(sounds,timeout) {
     }
 }
 
-var pauseallsound=function(){
+function pauseallsound(){
     for (i in currentsound){
         currentsound[i].pause();
     }
@@ -124,17 +134,33 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-function createfunc(s){
-    return function(){
-        playsound(s)};
-    }
-  async function playscenario(s){
+runcounter = 0;
+// function createfunc(s){
+//     return function(){
+//         playsound(s)
+//     };
+// }
+    
+async function playscenario(fromstage){
+    runcounter += 1;
+    var currentrun = runcounter;
+    pauseallsound();
     document.getElementById("playbutton").disabled = true;
+    var s=scenarios[currentscenario];
     for (var i = 0; i < s.stages.length; i++){
+        document.getElementById("stage-"+i).classList.remove("stagebttactive")
+    }
+    for (var i = fromstage; i < s.stages.length; i++){
+        if (currentrun!=runcounter){
+            console.log("Exit previous run")
+            return
+        }
+        document.getElementById("stage-"+i).classList.add("stagebttactive")
         speak(s.stages[i].read[currentlanguage],{
-            onend: createfunc(s.stages[i].sound)
+            onend: function(){playsound(s.stages[i].sound)}
             });
         await sleep(s.stages[i].time);
+        document.getElementById("stage-"+i).classList.remove("stagebttactive")
    }
 }
 
@@ -157,6 +183,9 @@ function getCurrentSenario() {
 
 currentscenario = getCurrentSenario()
 document.getElementById("note").innerHTML = scenarios[currentscenario].description;
+for (var i =0;i<scenarios[currentscenario].stages.length;i++){
+    document.getElementById("stages").innerHTML+="<button class=\"btt stagebtt\" onclick=\"playscenario("+i+")\"id=\"stage-"+i+"\">"+i+"</div>"
+}
 
 function previousscenario(){
     if (currentscenario == 0) {
