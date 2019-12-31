@@ -1,5 +1,7 @@
 # tinyadventure
 
+This project was inspired by [Cats-of-jasnah project](https://github.com/countable/cats-of-jasnah).
+
 The idea of tiny adventure is simple:
 
  - Use your phone or anything with a web browser + a speaker (internal phone speaker or a bluetooth speaker for even better experience)
