@@ -39,7 +39,7 @@ var scenarios = [
         "description":"It is 2045, a war broke out and your family is wondering through the apocalyptic land.",
         "stages":[
             {
-                "time": 10000,
+                "time": 30000,
                 "read":{
                     "en":"You are wondering through an abandoned town but there is no sign of living. A storm is approaching in and you must find food and shelter."
                 },
@@ -69,13 +69,13 @@ var scenarios = [
                 }
          	}
         ],
-        "exit": ["Feeling fresh and ready, you can finally leave the town."]
+        "exit": "Feeling fresh and ready, you can finally leave the town!"
     },
     {
         "description":"It is 1940, In the middle of world war 2, you and your family managed to escape to a farm.",
         "stages":[
             {
-                "time": 20000,
+                "time": 30000,
                 "read":{
                     "en":"Everyone stretch their legs and get out of the tent. It is important to keep your self healthy. You gather everyone and start your daily exercise."
                 },
@@ -94,7 +94,7 @@ var scenarios = [
                 }
          	}
         ],
-        "exit": ["Feeling fresh and ready, you can finally leave the farm."]
+        "exit": "Feeling fresh and ready, you can finally leave the farm."
     }
 ];
 
@@ -162,10 +162,12 @@ async function playscenario(fromstage){
         await sleep(s.stages[i].time);
         document.getElementById("stage-"+i).classList.remove("stagebttactive")
    }
+   pauseallsound();
+   speak(s.exit,{});
 }
 
 function getCurrentSenario() {
-    qs = document.location.search;
+    var qs = document.location.search;
 
     var params = {},
         tokens,
