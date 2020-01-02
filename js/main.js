@@ -97,7 +97,26 @@ runcounter = 0;
 //         playsound(s)
 //     };
 // }
-    
+
+
+async function setProgressbar(currentrun, timemax){
+    var timeleft = timemax;
+    while(1){
+        console.log(timeleft)
+            if (currentrun != runcounter){
+                return;
+            }
+            document.getElementById("progressBar").value =   Math.round(((timemax-timeleft)/timemax)*10);
+            timeleft -= 1000;
+            if(timeleft <= 0){
+                return;
+            }
+            document.getElementById("timeleft").innerHTML = Math.round(timeleft/1000)
+        
+        await sleep(1000);
+    }
+}
+
 async function playscenario(fromstage){
     runcounter += 1;
     var currentrun = runcounter;
@@ -119,7 +138,7 @@ async function playscenario(fromstage){
         speak(s.stages[i].read,{
             onend: function(){playambience(s.stages[i].sounds)}
             });
-        await sleep(s.stages[i].time*1000);
+        await setProgressbar(currentrun, s.stages[i].time*1000)
         document.getElementById("stage-"+i).classList.remove("stagebttactive");
    }
    pauseallsound();
