@@ -12,18 +12,29 @@
         <link href="style.css" rel="stylesheet">
     </head>
     <body>
+        <nav>
+            <select id="select_language" onchange="updateLanguage()">
+                <option value="en">English</option>
+                <option value="vn">Vietnamese</option>
+              </select>
+        </nav>
         <h1 class="mainheading">Tiny Adventure</h1>
         <div class="container">
-            <div class="status" style="margin-top: 5vh; padding-bottom: 5vh;">
-                <p id="note" class="note">
+            <div class="description" style="margin-top: 5vh; padding-bottom: 5vh;">
+                <p id="note" style="padding-top: 10px;padding-left: 10px;" class="note">
                     Let the adventure begins  </p>
             </div>
-            <div class="status" style="margin-top: 5vh; padding-bottom: 2vh;">
-            <p>List of stages in current scenario:</p>
-            <div id="stages" class="stagelist" style="margin-top: 2vh; padding-bottom: 2vh;">
-                
+            <div class="status" style="margin-top: 5vh; padding-bottom: 2vh; min-height: 30%;">
+                <p style="padding-top: 10px;padding-left: 10px;" id="narative">
+                    Narative will be shown here.
+                </p>
             </div>
-        </div>
+            <div class="description" style="margin-top: 5vh; padding-bottom: 2vh;">
+                <p style="padding-top: 10px;padding-left: 10px;">List of stages in current scenario:</p>
+                <div id="stages" class="stagelist" style="padding-top: 10px;padding-left: 10px; margin-top: 2vh; padding-bottom: 2vh;">
+                    
+                </div>
+            </div>
             <div class="action bar" style="margin-top: 2vh; padding-bottom: 2vh;">
                 <div class="button_cont" align="center">
                     <button class="nextbtt btt" id="previousbutton" onclick="previousscenario();">Previous</button>
@@ -37,6 +48,7 @@
             </div>
         </div>
         <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
+        <script src="/js/scenarios.js"></script>
         <script src="/js/main.js"></script>
     </body>
 </html>

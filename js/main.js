@@ -34,99 +34,56 @@ languagelib={
     "vn":"Vietnamese Female"
 };
 
-var scenarios = [
-    {
-        "description":"It is 2045, a war broke out and your family is wondering through the apocalyptic land.",
-        "stages":[
-            {
-                "time": 30000,
-                "read":{
-                    "en":"You are wondering through an abandoned town but there is no sign of living. A storm is approaching in and you must find food and shelter."
-                },
-                "sound":{
-                    "windy":0,
-                    "rifle_echo_long":15000
-                }
-            },
-            {
-            	"time": 30000,
-                "read": {
-                    "en":"While sitting around the campfire you heard a gun shoot and small noises outside the door. You take a look and found a wounded and exhausted dog outside."
-                },
-                "sound":{
-                    "thunder_storm":0,
-                    "fire":0,
-                    // "coffee_shop":0,
-                }
-             },
-             {
-            	"time": 30000,
-                "read": {
-                    "en":"Your friends are exhausted and they need food. The sky is clearing and It's time to go out and search for food."
-                },
-                "sound":{
-                    "warm_night":0,
-                }
-         	}
-        ],
-        "exit": "Feeling fresh and ready, you can finally leave the town!"
-    },
-    {
-        "description":"It is 1940, In the middle of world war 2, you and your family managed to escape to a farm.",
-        "stages":[
-            {
-                "time": 30000,
-                "read":{
-                    "en":"Everyone stretch their legs and get out of the tent. It is important to keep your self healthy. You gather everyone and start your daily exercise."
-                },
-                "sound":{
-                    "chicken_morning_farm":0
-                }
-            },
-            {
-            	"time": 30000,
-                "read": {
-                    "en":"Dark clouds gather quickly. It's time to head back into the tent and wait for the rain to finish."
-                },
-                "sound":{
-                    "heavy_rain":0,
-                    "thunder_storm":10000
-                }
-         	}
-        ],
-        "exit": "Feeling fresh and ready, you can finally leave the farm."
-    }
-];
+function updateLanguage() {
+    currentlanguage = document.getElementById("select_language").value;
+    document.getElementById("note").innerHTML = scenarios[currentscenario].description[currentlanguage];
+}
+
 
 async function speak (text, opts) {
     //opts = opts || {}
     pauseallsound();
     await sleep(1000);
-    console.log(languagelib[currentlanguage])
-    console.log(text)
-    responsiveVoice.speak(text, languagelib[currentlanguage], opts)
+    responsiveVoice.speak(text[currentlanguage], languagelib[currentlanguage], opts)
 }
 
 currentsound=[];
 
-async function  playsound(sounds,timeout) {
+
+
+function  playambience(sounds,timeout) {
     for (const [sound, time]  of Object.entries(sounds)) {
-        console.log(sound)
-        if (typeof currentsound[sound] != "undefined") {
-            currentsound[sound].currentTime = 0;
-        } else {
-            s = soundlib[sound]
-            var snd = new Audio(s.url)
-            snd.volume=s.v;
-            snd.loop=s.loop;
-            currentsound[sound] = snd;
+        if (time == 0){
+           playsound(sound,time)
         }
-        setTimeout(function(){currentsound[sound].play()},time);   
     }
 }
 
+function  playsoundatspecifictime(sounds,timeout) {
+    for (const [sound, time]  of Object.entries(sounds)) {
+        if (time != 0){
+           playsound(sound,time)
+        }
+    }
+}
+
+function  playsound(sound,timeout) {
+    if (typeof currentsound[sound] != "undefined") {
+        currentsound[sound].currentTime = 0;
+    } else {
+        s = soundlib[sound]
+        var snd = new Audio(s.url)
+        snd.volume=s.v;
+        snd.loop=s.loop;
+        currentsound[sound] = snd;
+    }
+    setTimeout(function(){currentsound[sound].play()},timeout*1000);   
+
+}
+
+
 function pauseallsound(){
-    for (i in currentsound){
+    for (var i in currentsound){
         currentsound[i].pause();
     }
 }
@@ -148,19 +105,22 @@ async function playscenario(fromstage){
     document.getElementById("playbutton").disabled = true;
     var s=scenarios[currentscenario];
     for (var i = 0; i < s.stages.length; i++){
-        document.getElementById("stage-"+i).classList.remove("stagebttactive")
+        document.getElementById("stage-"+i).classList.remove("stagebttactive");
     }
     for (var i = fromstage; i < s.stages.length; i++){
         if (currentrun!=runcounter){
             console.log("Exit previous run")
             return
         }
-        document.getElementById("stage-"+i).classList.add("stagebttactive")
-        speak(s.stages[i].read[currentlanguage],{
-            onend: function(){playsound(s.stages[i].sound)}
+        document.getElementById("narative").innerHTML = s.stages[i].read[currentlanguage];
+        document.getElementById("stage-"+i).classList.add("stagebttactive");
+        console.log(s.stages[i].sounds);
+        playsoundatspecifictime(s.stages[i].sounds);
+        speak(s.stages[i].read,{
+            onend: function(){playambience(s.stages[i].sounds)}
             });
-        await sleep(s.stages[i].time);
-        document.getElementById("stage-"+i).classList.remove("stagebttactive")
+        await sleep(s.stages[i].time*1000);
+        document.getElementById("stage-"+i).classList.remove("stagebttactive");
    }
    pauseallsound();
    speak(s.exit,{});
@@ -184,7 +144,7 @@ function getCurrentSenario() {
 }
 
 currentscenario = getCurrentSenario()
-document.getElementById("note").innerHTML = scenarios[currentscenario].description;
+document.getElementById("note").innerHTML = scenarios[currentscenario].description[currentlanguage];
 for (var i =0;i<scenarios[currentscenario].stages.length;i++){
     document.getElementById("stages").innerHTML+="<button class=\"btt stagebtt\" onclick=\"playscenario("+i+")\"id=\"stage-"+i+"\">"+i+"</div>"
 }
